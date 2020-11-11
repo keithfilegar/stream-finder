@@ -1,0 +1,38 @@
+<header>
+    <h1>Stream Finder</h1>
+    <form class="js-user-form">
+        <label for="searchSubject">Search for a TV show or Movie!</label>
+        <br>
+        <input type="text" id="searchSubject" required>
+        <button type="submit" class="js-submit">Search</button>
+    </form>
+</header>
+
+<div>
+    <section class="search-summary">
+        <h3>Plot Summary</h3>
+        <p>GET title/get-overview-details.plotOutline goes here</p>
+    </section>
+
+    <section class="watch-now group hidden">
+        <div class="item">
+            <!-- name of streaming service for watch now -->
+            <h3>GET title/get-meta-data.waysToWatch.optionGroups[0].watchOptions[0].primaryText</h3>
+            <p>GET title/get-meta-data.title.year</p>
+            <!-- This will translate to "visit streamingService.com" -->
+            <button>GET title/get-meta-data.waysToWatch.optionGroups[0].watchOptions[0].secondaryText</button>
+        </div>
+    </section>
+
+    <section class="rent-buy group hidden">
+        <div class="item">
+            <!-- name of streaming service for rent/buy-->
+            <h3>GET title/get-meta-data.waysToWatch.optionGroups[1].watchOptions[0].primaryText</h3>
+            <p>GET title/get-meta-data.title.year</p>
+            <!-- Show the buy/rent price -->
+            <p>GET title/get-meta-data.waysToWatch.optionGroups[1].secondaryText</p>
+            <!-- add this to button tag on implementation:  onclick="GET title/get-meta-data.waysToWatch.optionGroups[1].watchOptions[0].link" -->
+            <button>Buy on GET title/get-meta-data.waysToWatch.optionGroups[1].watchOptions[0].primaryText</button>
+        </div>
+    </section>
+</div>
