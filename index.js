@@ -1,4 +1,6 @@
 const apiKey = 'bddc714743msh7cb71e3d76c6f90p121999jsnb6ff9b4a7f9f'
+const apiHost = 'imdb8.p.rapidapi.com'
+const baseURL = 'https://imdb8.p.rapidapi.com/title'
 
 const store = {
     searchStarted: false,
@@ -23,8 +25,42 @@ function generateHomePage() {
 
 // ======== API INTERACTIONS ==========
 
-function getUserSearch(searchTerm) {
+function formatSearchQuery(params) {
+    const queryItem = Object.keys(params).map(key =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
 
+        return queryItem.join()
+}
+
+function getUserSearch(searchTerm) {
+    const params = {
+        q: searchTerm
+    }
+
+    const options = {
+        headers: new Headers({
+            "x-rapidapi-key": apiKey,
+            "x-rapidapi-host": apiHost
+        })
+    }
+
+    const searchQuery = formatSearchQuery(params)
+    const url = baseURL + '/find?' + searchQuery
+    console.log(url)
+
+    fetch(url, options)
+    .then(response => {
+        if(!response.ok) {
+            alert("Error")
+            throw Error(response.status + ": " + response.message)
+        }
+        return response.json()
+    })
+    .then(responseJson => console.log(responseJson))
+    .catch(error => {
+        alert("Something went wrong. Please try again later.")
+        console.log(error)
+    })
 }
 
 // ======== EVENT HANDLERS ==========
@@ -34,6 +70,8 @@ function handleUserSearch() {
         event.preventDefault();
         console.log("Working");
         const searchTerm = $('#searchSubject').val();
+
+        getUserSearch(searchTerm);
 
     })
 }
