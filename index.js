@@ -32,6 +32,49 @@ function formatSearchQuery(params) {
         return queryItem.join()
 }
 
+function displaySearchResults(responseJson) {
+    console.log(responseJson)
+    $('.js-content-container').empty();
+
+
+    // Display error message if search yields no results
+    if(!responseJson.hasOwnProperty('results')){
+        console.log('no results found')
+        $('.js-content-container').append(
+            `<div class="no-results-error">
+                <h3>Sorry! We weren't able to find anything by that name. Please try another search.</h3>
+            </div>`
+        )
+        return
+    }
+
+    $('.js-content-container').append(
+        `<ul class="js-list-container"></ul>`
+    )
+
+    for(i = 0; i < responseJson.results.length; i++) {
+        //filter out unwanted response values
+        if(responseJson.results[i].title === undefined){
+            continue;
+        }
+
+        //button id is structured to format id value needed to make additional calls
+        $('.js-list-container').append(
+            `<li class="group">
+                <div class="item">
+                <h3>${responseJson.results[i].title}</h3>
+                <p>${responseJson.results[i].year}</p>
+                <button id="${responseJson.results[i].id.replace("/title/", "").replaceAll("/", "")}">Streaming Details</button>
+                </div>
+
+                <div class="item">
+                <img src="${responseJson.results[i].image.url}">
+            </li>`
+        )
+    }
+
+}
+
 function getUserSearch(searchTerm) {
     const params = {
         q: searchTerm
@@ -56,7 +99,7 @@ function getUserSearch(searchTerm) {
         }
         return response.json()
     })
-    .then(responseJson => console.log(responseJson))
+    .then(responseJson => displaySearchResults(responseJson))
     .catch(error => {
         alert("Something went wrong. Please try again later.")
         console.log(error)
@@ -72,7 +115,7 @@ function handleUserSearch() {
         const searchTerm = $('#searchSubject').val();
 
         getUserSearch(searchTerm);
-
+        store.searchStarted = false;
     })
 }
 
