@@ -6,3 +6,17 @@ img {
     height: 250px;
     width: 150px;
 }
+
+li {
+    border: solid black;
+    
+}
+
+.group {
+    display: flex;
+}
+
+.item {
+    flex: 1;
+    padding: 10px;
+}

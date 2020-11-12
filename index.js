@@ -4,8 +4,14 @@ const baseURL = 'https://imdb8.p.rapidapi.com/title'
 
 const store = {
     searchStarted: false,
-    searchList: [],
-    viewPageKey: ""
+    detailId: ""
+}
+
+const options = {
+    headers: new Headers({
+        "x-rapidapi-key": apiKey,
+        "x-rapidapi-host": apiHost
+    })
 }
 
 // ======== HTML GENERATION ==========
@@ -23,8 +29,26 @@ function generateHomePage() {
     <div class="js-error-message hidden"></div>`
 }
 
+function generateResultsHeader() {
+    return `
+    <header class="group">
+        <h1 class="item">Stream Finder</h1>
+        <form class="js-user-form item">
+            <label for="searchSubject">Search for a TV show or Movie!</label>
+            <br>
+            <input type="text" id="searchSubject" required>
+            <button type="submit" class="js-submit">Search</button>
+        </form>
+    </header>
+
+    <div>
+        <ul class="js-list-container"></ul>
+    </div>`
+}
+
 // ======== API INTERACTIONS ==========
 
+// --------- Handle User Search GET title/find ----------
 function formatSearchQuery(params) {
     const queryItem = Object.keys(params).map(key =>
         `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
@@ -48,9 +72,7 @@ function displaySearchResults(responseJson) {
         return
     }
 
-    $('.js-content-container').append(
-        `<ul class="js-list-container"></ul>`
-    )
+    $('body').html(generateResultsHeader());
 
     for(i = 0; i < responseJson.results.length; i++) {
         //filter out unwanted response values
@@ -64,7 +86,7 @@ function displaySearchResults(responseJson) {
                 <div class="item">
                 <h3>${responseJson.results[i].title}</h3>
                 <p>${responseJson.results[i].year}</p>
-                <button id="${responseJson.results[i].id.replace("/title/", "").replaceAll("/", "")}">Streaming Details</button>
+                <button id="${responseJson.results[i].id.replace("/title/", "").replaceAll("/", "")}" class="list-button">Streaming Details</button>
                 </div>
 
                 <div class="item">
@@ -78,13 +100,6 @@ function displaySearchResults(responseJson) {
 function getUserSearch(searchTerm) {
     const params = {
         q: searchTerm
-    }
-
-    const options = {
-        headers: new Headers({
-            "x-rapidapi-key": apiKey,
-            "x-rapidapi-host": apiHost
-        })
     }
 
     const searchQuery = formatSearchQuery(params)
@@ -106,6 +121,32 @@ function getUserSearch(searchTerm) {
     })
 }
 
+// --------- Handle Detail View GET title/overview-detail ----------
+
+function getOverviewDetails() {
+    const params = {
+        tconst: store.detailId
+    }
+
+    const overviewDetailQuery = formatSearchQuery(params)
+    const url = baseURL + '/get-overview-details?' + overviewDetailQuery
+    console.log(url)
+
+    fetch(url,options)
+    .then(response => {
+        if(!response.ok) {
+            alert("Error")
+            throw Error(response.status + ": " + response.message)
+        }
+        return response.json()
+    })
+    .then(responseJson => console.log(responseJson))
+    .catch(error => {
+        alert("Something went wrong. Please try again later.")
+        console.log(error)
+    })
+}
+
 // ======== EVENT HANDLERS ==========
 
 function handleUserSearch() {
@@ -116,6 +157,15 @@ function handleUserSearch() {
 
         getUserSearch(searchTerm);
         store.searchStarted = false;
+    })
+}
+
+function handleStreamDetails() {
+    $('body').on('click', '.list-button', event => {
+        store.detailId = event.target.id
+        console.log(store.detailId)
+
+        getOverviewDetails();
     })
 }
 
@@ -134,6 +184,7 @@ function render() {
 function handleApp(){
     render();
     handleUserSearch();
+    handleStreamDetails();
 }
 
 $(handleApp);
