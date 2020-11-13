@@ -9,14 +9,33 @@ img {
 
 li {
     border: solid black;
-    
+}
+
+section {
+    width: 100%;
+    text-align: center;
+    padding: 0;
 }
 
 .group {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .item {
     flex: 1;
     padding: 10px;
+}
+
+.list-image, .list-info {
+    width: 50%;
+}
+
+.list-image {
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    display: none;
 }
