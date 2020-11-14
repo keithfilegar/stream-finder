@@ -63,15 +63,21 @@ function generateListPage(responseJson) {
             <img src="${responseJson.results[i].image.url}">
         </div>
 
-        <section id="listItem${i}" class="js-detail-container">
+        <div id="listItem${i}" class="detail-button-container">
             <button id="${responseJson.results[i].id.replace("/title/", "").replaceAll("/", "")}" class="list-button">Streaming Details</button>
-        </section>
+        </div>
     </li>
     `
 }
 
-function generateDetailView(responseJson) {
-    
+function generateDetailOverview(responseJson) {
+    return `
+        <div>
+            <section class="search-summary">
+                <h3>Plot Summary</h3>
+                <p>GET title/get-overview-details.plotOutline goes here</p>
+            </section>
+        </div>`
 }
 
 // ======== API INTERACTIONS ==========
@@ -137,15 +143,15 @@ function getUserSearch(searchTerm) {
     })
 }
 
-// --------- Handle Detail View GET title/overview-detail ----------
 function displayOverviewResults(responseJson){
     console.log(responseJson)
     $('#' + store.listId).empty();
 
-    $('#' + store.listId).apend(generateDetailView(responseJson));
+    $('#' + store.listId).apend(generateDetailOverview(responseJson));
     
 }
 
+// --------- Handle Detail View GET title/overview-detail ----------
 function getOverviewDetails() {
     const params = {
         tconst: store.detailId
@@ -184,13 +190,10 @@ function handleUserSearch() {
 }
 
 function handleStreamDetails() {
-    $('body').on('click', '.js-detail-container', event => {
+    $('body').on('click', '.detail-button-container', event => {
         store.detailId = event.target.id
-        console.log(store.detailId)
-
         store.listId = event.currentTarget.id
-        console.log(store.detailId)
-        console.log(store.listId)
+        
         getOverviewDetails();
     })
 }
