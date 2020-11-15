@@ -75,7 +75,7 @@ function generateDetailOverview(responseJson) {
         <div>
             <section class="search-summary">
                 <h3>Plot Summary</h3>
-                <p>GET title/get-overview-details.plotOutline goes here</p>
+                <p>${responseJson.plotOutline.text}</p>
             </section>
         </div>`
 }
@@ -147,8 +147,7 @@ function displayOverviewResults(responseJson){
     console.log(responseJson)
     $('#' + store.listId).empty();
 
-    $('#' + store.listId).apend(generateDetailOverview(responseJson));
-    
+    $('#' + store.listId).html(generateDetailOverview(responseJson));
 }
 
 // --------- Handle Detail View GET title/overview-detail ----------
