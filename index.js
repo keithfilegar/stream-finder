@@ -72,12 +72,39 @@ function generateListPage(responseJson) {
 
 function generateDetailOverview(responseJson) {
     return `
-        <div>
+        <div class="overview-container${store.listId}">
             <section class="search-summary">
                 <h3>Plot Summary</h3>
                 <p>${responseJson.plotOutline.text}</p>
             </section>
         </div>`
+}
+
+function generateStreamDetails(metaDataJson) {  
+    let viewOptionsArray = metaDataJson.optionGroups[i].watchOptions
+    let watchOptionsHtml = ''
+    console.log(viewOptionsArray)
+
+    watchOptionsHtml += `
+        <section class="group">
+            <div class="item">
+                ${generateWatchOptions(viewOptionsArray)}
+            </div>
+        </section>`
+
+    return watchOptionsHtml;
+}
+
+function generateWatchOptions(viewOptionsArray) {
+    let viewOptionHtml = ""
+    for(x = 0; x < viewOptionsArray.length; x ++) {
+        viewOptionHtml += `
+        <div>
+            <h3>${viewOptionsArray[x].primaryText}</h3>
+            <p><a href="${viewOptionsArray[x].link.uri}" target="_blank">${viewOptionsArray[x].secondaryText}</a></p>
+        </div>`
+    }
+    return viewOptionHtml;
 }
 
 // ======== API INTERACTIONS ==========
@@ -87,7 +114,7 @@ function formatSearchQuery(params) {
     const queryItem = Object.keys(params).map(key =>
         `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
 
-        return queryItem.join()
+        return queryItem.join();
 }
 
 function displaySearchResults(responseJson) {
@@ -143,11 +170,35 @@ function getUserSearch(searchTerm) {
     })
 }
 
-function displayOverviewResults(responseJson){
-    console.log(responseJson)
+function displayOverviewResults(overviewJson){
     $('#' + store.listId).empty();
 
-    $('#' + store.listId).html(generateDetailOverview(responseJson));
+    $('#' + store.listId).html(generateDetailOverview(overviewJson));
+}
+
+function displayStreamDetails(responseJson){
+    console.log(responseJson)
+    let responseId = Object.keys(responseJson);
+
+    let metaDataJson = responseJson[responseId[0]].waysToWatch;
+    console.log(metaDataJson);
+
+    $(`.overview-container${store.listId}`).append(
+        `<div class="stream-details${store.listId}">
+        </div>`
+    )
+
+    let streamInfoHtml = "";
+
+    for(i = 0; i < metaDataJson.optionGroups.length; i++) {
+        if(metaDataJson.optionGroups[i].displayName === "ON TV") {
+            console.log("option group skipped")
+            continue;
+        }
+        streamInfoHtml += generateStreamDetails(metaDataJson);
+    }
+
+    $('#' + store.listId).append(streamInfoHtml);
 }
 
 // --------- Handle Detail View GET title/overview-detail ----------
@@ -156,19 +207,44 @@ function getOverviewDetails() {
         tconst: store.detailId
     }
 
-    const overviewDetailQuery = formatSearchQuery(params)
-    const url = baseURL + '/get-overview-details?' + overviewDetailQuery
-    console.log(url)
+    const overviewDetailQuery = formatSearchQuery(params);
+    const url = baseURL + '/get-overview-details?' + overviewDetailQuery;
+    console.log(url);
 
-    fetch(url,options)
+    fetch(url, options)
     .then(response => {
         if(!response.ok) {
             alert("Error")
             throw Error(response.status + ": " + response.message)
         }
-        return response.json()
+        return response.json();
     })
     .then(responseJson => displayOverviewResults(responseJson))
+    .catch(error => {
+        //alert("Something went wrong. Please try again later.")
+        console.log(error.status)
+    })
+}
+
+// --------- Handle Detail View GET title/meta-data ----------
+function getMetaData() {
+    const params = {
+        ids: store.detailId
+    }
+
+    const metatDataQuery = formatSearchQuery(params);
+    const url = baseURL + '/get-meta-data?' + metatDataQuery;
+    console.log(url);
+
+    fetch(url, options)
+    .then(response => {
+        if(!response.ok) {
+            alert("Error")
+            throw Error(response.status + ": " + response.message)
+        }
+        return response.json();
+    })
+    .then(responseJson => displayStreamDetails(responseJson))
     .catch(error => {
         //alert("Something went wrong. Please try again later.")
         console.log(error.status)
@@ -189,11 +265,14 @@ function handleUserSearch() {
 }
 
 function handleStreamDetails() {
-    $('body').on('click', '.detail-button-container', event => {
-        store.detailId = event.target.id
-        store.listId = event.currentTarget.id
+    $('body').on('click', '.detail-button-container', event => { 
+        target = event.target
+        store.detailId = event.target.id;
+        store.listId = event.currentTarget.id;
         
         getOverviewDetails();
+        setTimeout(() => {  getMetaData(); }, 500);
+        $(this).off(event);      
     })
 }
 
