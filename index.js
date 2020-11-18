@@ -1,4 +1,4 @@
-const apiKey = 'bddc714743msh7cb71e3d76c6f90p121999jsnb6ff9b4a7f9f'
+const apiKey = '019af6d65amshfdcba9ddad7b7b6p15a8c3jsnb361c08911f2'
 const apiHost = 'imdb8.p.rapidapi.com'
 const baseURL = 'https://imdb8.p.rapidapi.com/title'
 
@@ -54,14 +54,14 @@ function generateListPage(responseJson) {
     //button id is structured to format id value needed to make additional calls
     return `
     <li class="group">
+        <div class="list-image item">
+            <img src="${responseJson.results[i].image.url}">
+        </div>
+
         <div class="list-info item">
             <h3>${responseJson.results[i].title}</h3>
             <p>${responseJson.results[i].year}</p>
             
-        </div>
-
-        <div class="list-image item">
-            <img src="${responseJson.results[i].image.url}">
         </div>
 
         <div id="listItem${i}" class="detail-button-container">
@@ -77,24 +77,42 @@ function generateDetailOverview(responseJson) {
             <section class="search-summary">
                 <h3>Plot Summary</h3>
                 <p>${responseJson.plotOutline.text}</p>
+                <p>${responseJson.certificates.US[0].certificate}</p>
             </section>
         </div>`
 }
 
 function generateStreamDetails(metaDataJson) {  
-    let viewOptionsArray = metaDataJson.optionGroups[i].watchOptions
+    let viewOptionsArray = metaDataJson.waysToWatch.optionGroups[i].watchOptions
     let watchOptionsHtml = ''
+    console.log("generate stream details working")
     console.log(viewOptionsArray)
 
     watchOptionsHtml += `
         <section class="group">
             <div class="item">
-                <h3>${metaDataJson.optionGroups[i].displayName}</h3>
+                <h3>${metaDataJson.waysToWatch.optionGroups[i].displayName}</h3>
                 ${generateWatchOptions(viewOptionsArray)}
             </div>
         </section>`
 
     return watchOptionsHtml;
+}
+
+function generateMetacriticInfo(metaDataJson){
+    let metacriticHtml = ""
+    if(metaDataJson.metacritic.reviewCount > 0) {
+        metacriticHtml += `
+        <section class="group">
+            <div class="item">
+                <h4>Metacritic Info</h4>
+                <p>Metacritic Score: ${metaDataJson.metacritic.metaScore}</p>
+                <p>User Score: ${metaDataJson.metacritic.userScore}</p>
+            </div>
+        </section>
+        `
+    }
+    return metacriticHtml
 }
 
 function generateWatchOptions(viewOptionsArray) {
@@ -181,13 +199,13 @@ function displayStreamDetails(responseJson){
     console.log(responseJson)
     let responseId = Object.keys(responseJson);
 
-    let metaDataJson = responseJson[responseId[0]].waysToWatch;
+    let metaDataJson = responseJson[responseId[0]];
     console.log(metaDataJson);
 
-    let streamInfoHtml = "";
+    let streamInfoHtml = generateMetacriticInfo(metaDataJson);
 
-    for(i = 0; i < metaDataJson.optionGroups.length; i++) {
-        if(metaDataJson.optionGroups[i].displayName === "ON TV") {
+    for(i = 0; i < metaDataJson.waysToWatch.optionGroups.length; i++) {
+        if(metaDataJson.waysToWatch.optionGroups[i].displayName === "ON TV") {
             console.log("option group skipped")
             continue;
         }
