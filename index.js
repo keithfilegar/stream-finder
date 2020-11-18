@@ -271,6 +271,7 @@ function handleStreamDetails() {
         console.log(store.listId)
         
         getOverviewDetails();
+        // setTimeout to prevent race condition
         setTimeout(() => {  getMetaData(); }, 2000);
 
         $(event.currentTarget).addClass('clicked')
