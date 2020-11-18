@@ -262,14 +262,18 @@ function handleUserSearch() {
 
 function handleStreamDetails() {
     $('body').on('click', '.detail-button-container', event => { 
+        if($(event.currentTarget).hasClass('clicked')) {
+            return false;
+        }
+
         store.detailId = event.target.id;
         store.listId = event.currentTarget.id;
         console.log(store.listId)
         
         getOverviewDetails();
-        setTimeout(() => {  getMetaData(); }, 750);
+        setTimeout(() => {  getMetaData(); }, 2000);
 
-       //TODO: Turn off event listener after event gets triggered
+        $(event.currentTarget).addClass('clicked')
     })
 }
 
