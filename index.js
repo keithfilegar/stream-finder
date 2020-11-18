@@ -39,6 +39,7 @@ function generateResultsHeader(responseJson) {
             <br>
             <input type="text" id="searchSubject" required>
             <button type="submit" class="js-submit">Search</button>
+            <div class="js-error-message hidden"></div>
         </form>
     </header>
 
@@ -88,6 +89,7 @@ function generateStreamDetails(metaDataJson) {
     watchOptionsHtml += `
         <section class="group">
             <div class="item">
+                <h3>${metaDataJson.optionGroups[i].displayName}</h3>
                 ${generateWatchOptions(viewOptionsArray)}
             </div>
         </section>`
@@ -132,7 +134,7 @@ function displaySearchResults(responseJson) {
     }
     $('.js-content-container').empty();
 
-    $('body').html(generateResultsHeader(responseJson));
+    $('.js-content-container').html(generateResultsHeader(responseJson));
 
     for(i = 0; i < responseJson.results.length; i++) {
         //filter out unwanted response values
@@ -164,7 +166,6 @@ function getUserSearch(searchTerm) {
     })
     .then(responseJson => displaySearchResults(responseJson))
     .catch(error => {
-        // TODO: Identify error when searching word "rubber"
         //alert("Something went wrong. Please try again later.")
         console.log(error.status)
     })
@@ -182,11 +183,6 @@ function displayStreamDetails(responseJson){
 
     let metaDataJson = responseJson[responseId[0]].waysToWatch;
     console.log(metaDataJson);
-
-    $(`.overview-container${store.listId}`).append(
-        `<div class="stream-details${store.listId}">
-        </div>`
-    )
 
     let streamInfoHtml = "";
 
@@ -266,13 +262,14 @@ function handleUserSearch() {
 
 function handleStreamDetails() {
     $('body').on('click', '.detail-button-container', event => { 
-        target = event.target
         store.detailId = event.target.id;
         store.listId = event.currentTarget.id;
+        console.log(store.listId)
         
         getOverviewDetails();
-        setTimeout(() => {  getMetaData(); }, 500);
-        $(this).off(event);      
+        setTimeout(() => {  getMetaData(); }, 750);
+
+       //TODO: Turn off event listener after event gets triggered
     })
 }
 
