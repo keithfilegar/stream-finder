@@ -65,7 +65,7 @@ function generateListPage(responseJson) {
         </div>
 
         <div id="listItem${i}" class="detail-button-container">
-            <button id="${responseJson.results[i].id.replace("/title/", "").replaceAll("/", "")}" class="list-button">Streaming Details</button>
+            <button id="${responseJson.results[i].id.replace("/title/", "").replaceAll("/", "")}" class="list-button" onclick="this.disabled = true">Streaming Details</button>
         </div>
     </li>
     `
