@@ -156,7 +156,7 @@ function displaySearchResults(responseJson) {
 
     for(i = 0; i < responseJson.results.length; i++) {
         //filter out unwanted response values
-        if(responseJson.results[i].title === undefined){
+        if(responseJson.results[i].title === undefined || responseJson.results[i].image === undefined){
             continue;
         }
 
