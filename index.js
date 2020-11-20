@@ -20,7 +20,7 @@ const options = {
 function generateHomePage() {
     return `
     <h1 class="home-header">Stream Finder</h1>
-    <h3>Too many streaming services to keep track of? Search below to find out where to watch something!</h3>
+    <h2 class="home-text">Find where your favorite movies and shows are streaming!</h2>
     <div class="search-form-container">
         <form class="searchContent">
             <label for="searchSubject">Search for a TV show or Movie!</label>
