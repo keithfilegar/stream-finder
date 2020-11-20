@@ -37,14 +37,16 @@ function generateHomePage() {
 function generateResultsHeader(responseJson) {
     return `
     <header class="group">
-        <h1 class="item">Stream Finder</h1>
+        <div class="header-content-container">
+            <h1 class="item">Stream Finder</h1>
             <form class="js-user-form item">
-                <label for="searchSubject">Search for a TV show or Movie!</label>
+                <label for="searchSubject">Search another TV show or Movie!</label>
                 <br>
                 <input type="text" id="searchSubject" required>
                 <button type="submit" class="js-submit header-search">Search</button>
                 <div class="js-error-message hidden"></div>
             </form>
+        </div>
     </header>
 
     <h2>Showing Resuls for: "${responseJson.query}"</h2>
@@ -58,17 +60,16 @@ function generateListPage(responseJson) {
     //button id is structured to format id value needed to make additional calls
     return `
     <li class="group">
-        <div class="list-image item">
-            <img src="${responseJson.results[i].image.url}">
-        </div>
-
         <div class="list-info item">
             <h3>${responseJson.results[i].title}</h3>
             <p>${responseJson.results[i].year}</p>
-            
         </div>
 
-        <div id="listItem${i}" class="detail-button-container">
+        <div class="list-image item">
+            <img src="${responseJson.results[i].image.url}" class="result-poster">
+        </div>
+
+        <div id="listItem${i}" class="detail-button-container item">
             <button id="${responseJson.results[i].id.replace("/title/", "").replaceAll("/", "")}" class="list-button" onclick="this.disabled = true">Streaming Details</button>
         </div>
     </li>
