@@ -25,6 +25,7 @@ footer {
     bottom: 0;
     width: 100%;
     text-align: center;
+    font-size: 1.1em;
     padding-bottom: 5px;
     color: #ffffff;
     background-color: #4B4D4C;
@@ -42,7 +43,7 @@ li {
 
 /* Wrapper */
 .wrapper {
-    min-height: calc(100vh - 160px);
+    min-height: calc(100vh - 150px);
     position: relative;
     margin: 15px 15px 20px 15px;
     
@@ -61,11 +62,17 @@ li {
 
 /* Footer */
 footer p {
-    margin-bottom: 5px;
+    margin: 5px 0;
 }
+
 #github-logo {
     height: 30px;
     width: 30px;
+}
+
+#footer-link {
+    text-decoration: none;
+    color: #C8CCCC
 }
 
 /* Home Page */
@@ -142,3 +149,16 @@ input[type=text]{
 }
 
 /* Media Queries */
+@media all and (min-width : 768px) {
+    /* home page */
+    input[type=text]{
+        width: 420px;
+        padding: 5px 10px;
+        margin-top: 10px;
+        font-size: 1.1em;
+    }
+
+    .home-search {
+        width: 200px;
+    }
+}
