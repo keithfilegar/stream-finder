@@ -19,14 +19,18 @@ const options = {
 
 function generateHomePage() {
     return `
-    <h1>Stream Finder</h1>
+    <h1 class="home-header">Stream Finder</h1>
     <h3>Too many streaming services to keep track of? Search below to find out where to watch something!</h3>
-    <form class="searchContent">
-        <label for="searchSubject">Search for a TV show or Movie!</label>
-        <br>
-        <input type="text" id="searchSubject" required>
-        <button type="submit" class="js-submit">Search</button>
-    </form>
+    <div class="search-form-container">
+        <form class="searchContent">
+            <label for="searchSubject">Search for a TV show or Movie!</label>
+            <br>
+            <input type="text" id="searchSubject" required>
+            <br>
+            <button type="submit" class="js-submit home-search">Search</button>
+        </form>
+    </div>
+
     <div class="js-error-message hidden"></div>`
 }
 
@@ -34,13 +38,13 @@ function generateResultsHeader(responseJson) {
     return `
     <header class="group">
         <h1 class="item">Stream Finder</h1>
-        <form class="js-user-form item">
-            <label for="searchSubject">Search for a TV show or Movie!</label>
-            <br>
-            <input type="text" id="searchSubject" required>
-            <button type="submit" class="js-submit">Search</button>
-            <div class="js-error-message hidden"></div>
-        </form>
+            <form class="js-user-form item">
+                <label for="searchSubject">Search for a TV show or Movie!</label>
+                <br>
+                <input type="text" id="searchSubject" required>
+                <button type="submit" class="js-submit header-search">Search</button>
+                <div class="js-error-message hidden"></div>
+            </form>
     </header>
 
     <h2>Showing Resuls for: "${responseJson.query}"</h2>
