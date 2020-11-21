@@ -11,7 +11,7 @@ Color Pallet
 #8E9191 -- medium gray
 */
 
-/* Element Targets */
+
 body {
     margin: 0;
     padding: 0;
@@ -20,24 +20,6 @@ body {
     background-color: #d3dbdb;
     line-height: 1.5em;
 }
-
-footer {
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    font-size: 1.1em;
-    padding-bottom: 5px;
-    color: #ffffff;
-    background-color: #4B4D4C;
-    margin-top: 20px;
-}
-
-img {
-    height: 250px;
-    width: 150px;
-}
-
-
 
 /* Wrapper */
 .wrapper {
@@ -64,6 +46,17 @@ img {
 }
 
 /* Footer */
+footer {
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1.1em;
+    padding-bottom: 5px;
+    color: #ffffff;
+    background-color: #4B4D4C;
+    margin-top: 20px;
+}
+
 footer p {
     margin: 5px 0;
 }
@@ -148,8 +141,45 @@ li {
 }
 
 .list-info h3 {
-    font-size: 1.5em;
+    font-size: 1.7em;
     text-decoration: underline;
+}
+
+.plot-summary {
+    margin: 10;
+    font-size: 1.4em;
+    text-decoration: underline;
+}
+
+.search-summary p{
+    padding: 0 10px;
+    font-size: 1.2em;
+}
+
+.rating {
+    font-size: 1.5em;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.stream-method {
+    font-size: 1.3em;
+    text-align: left;
+    text-decoration: underline;
+    margin-left: 20px;
+}
+
+.stream-service, .service-link {
+    font-size: 1.2em;
+}
+
+.service-link {
+    text-decoration: none;
+    color: #1f3b35;
+}
+
+.service-link:hover {
+    color: #4c7776;
 }
 
 /* list positioning */
@@ -168,6 +198,12 @@ li {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.list-image img {
+    height: 300px;
+    width: 175px;
+    border: solid 1px black;
 }
 
 .detail-button-container {

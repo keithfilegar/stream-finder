@@ -80,9 +80,9 @@ function generateDetailOverview(responseJson) {
     return `
         <div class="overview-container${store.listId}">
             <section class="search-summary">
-                <h3>Plot Summary</h3>
+                <h3 class="plot-summary">Plot Summary</h3>
                 <p>${responseJson.plotOutline.text}</p>
-                <p>${responseJson.certificates.US[0].certificate}</p>
+                <p class="rating">${responseJson.certificates.US[0].certificate}</p>
             </section>
         </div>`
 }
@@ -96,7 +96,7 @@ function generateStreamDetails(metaDataJson) {
     watchOptionsHtml += `
         <section class="group">
             <div class="item">
-                <h3>${metaDataJson.waysToWatch.optionGroups[i].displayName}</h3>
+                <h3 class="stream-method">${metaDataJson.waysToWatch.optionGroups[i].displayName}</h3>
                 ${generateWatchOptions(viewOptionsArray)}
             </div>
         </section>`
@@ -110,7 +110,7 @@ function generateMetacriticInfo(metaDataJson){
         metacriticHtml += `
         <section class="group">
             <div class="item">
-                <h4>Metacritic Info</h4>
+                <h3>Metacritic Info</h3>
                 <p>Metacritic Score: ${metaDataJson.metacritic.metaScore}</p>
                 <p>User Score: ${metaDataJson.metacritic.userScore}</p>
             </div>
@@ -125,8 +125,8 @@ function generateWatchOptions(viewOptionsArray) {
     for(x = 0; x < viewOptionsArray.length; x ++) {
         viewOptionHtml += `
         <div>
-            <h3>${viewOptionsArray[x].primaryText}</h3>
-            <p><a href="${viewOptionsArray[x].link.uri}" target="_blank">${viewOptionsArray[x].secondaryText}</a></p>
+            <h3 class="service-name">${viewOptionsArray[x].primaryText}</h3>
+            <p><a href="${viewOptionsArray[x].link.uri}" class="service-link" target="_blank">${viewOptionsArray[x].secondaryText}</a></p>
         </div>`
     }
     return viewOptionHtml;
@@ -161,7 +161,7 @@ function displaySearchResults(responseJson) {
 
     for(i = 0; i < responseJson.results.length; i++) {
         //filter out unwanted response values
-        if(responseJson.results[i].title === undefined || responseJson.results[i].image === undefined){
+        if(responseJson.results[i].title === undefined || responseJson.results[i].image === undefined || responseJson.results[i].year === undefined){
             continue;
         }
 
