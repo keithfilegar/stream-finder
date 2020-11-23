@@ -25,9 +25,9 @@ function generateHomePage() {
         <form class="searchContent">
             <label for="searchSubject">Search for a TV show or Movie!</label>
             <br>
-            <input type="text" id="searchSubject" required>
+            <input type="text" id="searchSubject" class="home-search" required>
             <br>
-            <button type="submit" class="js-submit home-search">Search</button>
+            <button type="submit" class="js-submit">Search</button>
         </form>
     </div>
 
@@ -40,16 +40,16 @@ function generateResultsHeader(responseJson) {
         <div class="header-content-container">
             <h1 class="item">Stream Finder</h1>
             <form class="js-user-form item">
-                <label for="searchSubject">Search another TV show or Movie!</label>
+                <label for="searchSubject" id="header-label">Search another TV show or Movie!</label>
                 <br>
-                <input type="text" id="searchSubject" required>
+                <input type="text" id="searchSubject" class="header-input" required>
                 <button type="submit" class="js-submit header-search">Search</button>
                 <div class="js-error-message hidden"></div>
             </form>
         </div>
     </header>
 
-    <h2>Showing Resuls for: "${responseJson.query}"</h2>
+    <h2 id="user-search-result">Showing Resuls for: "${responseJson.query}"</h2>
 
     <div>
         <ul class="js-list-container"></ul>
@@ -109,8 +109,8 @@ function generateMetacriticInfo(metaDataJson){
     if(metaDataJson.metacritic.reviewCount > 0) {
         metacriticHtml += `
         <section class="group">
-            <div class="item">
-                <h3>Metacritic Info</h3>
+            <div class="item metacritic-container">
+                <h3 class="metacritic-title">Metacritic Info</h3>
                 <p>Metacritic Score: ${metaDataJson.metacritic.metaScore}</p>
                 <p>User Score: ${metaDataJson.metacritic.userScore}</p>
             </div>
@@ -126,7 +126,7 @@ function generateWatchOptions(viewOptionsArray) {
         viewOptionHtml += `
         <div>
             <h3 class="service-name">${viewOptionsArray[x].primaryText}</h3>
-            <p><a href="${viewOptionsArray[x].link.uri}" class="service-link" target="_blank">${viewOptionsArray[x].secondaryText}</a></p>
+            <p class="service-link-container"><a href="${viewOptionsArray[x].link.uri}" class="service-link" target="_blank">${viewOptionsArray[x].secondaryText}</a></p>
         </div>`
     }
     return viewOptionHtml;

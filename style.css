@@ -90,7 +90,7 @@ footer p {
     text-align: center;
 }
 
-input[type=text]{
+.home-search, .header-input{
     width: 80%;
     padding: 5px 10px;
     margin-top: 10px;
@@ -113,10 +113,6 @@ button {
     /* width: 40%; */
 }
 
-.home-search {
-    width: 40%;
-}
-
 button:hover {
 	background-color:#C8CCCC;
 }
@@ -125,6 +121,24 @@ button:active {
 	position:relative;
 	top:1px;
 }
+
+/* List Header */
+.header-content-container {
+    text-align: center;
+}
+#header-label {
+    font-size: 1.3em;
+    padding: 5px;
+}
+
+.header-input {
+    padding: 10px
+}
+
+#user-search-result {
+    text-align: center;
+}
+
 
 /* Litst Page */
 ul {
@@ -145,6 +159,11 @@ li {
     text-decoration: underline;
 }
 
+.list-info p {
+    font-size: 1.2em;
+    font-weight: 700;
+}
+
 .plot-summary {
     margin: 10;
     font-size: 1.4em;
@@ -162,7 +181,11 @@ li {
     font-family: 'Times New Roman', Times, serif;
 }
 
-.stream-method {
+.metacritic-container p {
+    font-size: 1.3em;
+}
+
+.stream-method, .metacritic-title {
     font-size: 1.3em;
     text-align: left;
     text-decoration: underline;
@@ -173,13 +196,25 @@ li {
     font-size: 1.2em;
 }
 
+.service-name {
+    font-size: 1.3em;
+    font-weight: 800;
+    margin-bottom: 20px;
+}
+
+.service-link-container {
+    margin-top: 30px;
+}
 .service-link {
     text-decoration: none;
-    color: #1f3b35;
+    color: #fff;
+    background-color: #1f3b35;
+    padding: 10px 10px;
+    border-radius: 5px;
 }
 
 .service-link:hover {
-    color: #4c7776;
+    background-color: #4c7776;
 }
 
 /* list positioning */
