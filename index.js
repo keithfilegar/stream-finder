@@ -20,6 +20,7 @@ const options = {
 function generateHomePage() {
     return `
     <h1 class="home-header">Stream Finder</h1>
+    <hr>
     <h2 class="home-text">Find where your favorite movies and shows are streaming!</h2>
     <div class="search-form-container">
         <form class="searchContent">
@@ -43,6 +44,7 @@ function generateResultsHeader(responseJson) {
                 <label for="searchSubject" id="header-label">Search another TV show or Movie!</label>
                 <br>
                 <input type="text" id="searchSubject" class="header-input" required>
+                <br>
                 <button type="submit" class="js-submit header-search">Search</button>
                 <div class="js-error-message hidden"></div>
             </form>

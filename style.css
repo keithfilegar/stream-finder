@@ -21,9 +21,16 @@ body {
     line-height: 1.5em;
 }
 
+h1 {
+    font-family: 'Source Serif Pro', serif;
+    /* text-shadow: 3px 3px 5px #7eddda; */
+    text-shadow: 3px 3px 3px #81a098;
+    margin-bottom: 10px;
+}
+
 /* Wrapper */
 .wrapper {
-    min-height: calc(100vh - 150px);
+    min-height: calc(100vh - 170px);
     position: relative;
     margin: 15px 15px 20px 15px;
     
@@ -73,15 +80,22 @@ footer p {
 
 /* Home Page */
 .home-header {
-    margin-top: 30px;
+    margin-top: 50px;
     text-align: center;
-    font-family: 'Lato', sans-serif;
+    font-size: 3em;
 }
 
 .home-text {
     margin-top: 40px;
     font-size: 1.6em;
     text-align: center;
+}
+
+hr {
+    margin-top: 30px;;
+    height: 10px;
+	border: 0;
+	box-shadow: 0 10px 10px -10px #8c8b8b inset;
 }
 
 .search-form-container {
@@ -110,7 +124,6 @@ button {
 	padding:10px 24px;
 	text-decoration:none;
     margin-top:15px;
-    /* width: 40%; */
 }
 
 button:hover {
@@ -126,6 +139,11 @@ button:active {
 .header-content-container {
     text-align: center;
 }
+
+.header-content-container h1 {
+    font-size: 2.5em;
+}
+
 #header-label {
     font-size: 1.3em;
     padding: 5px;
@@ -137,8 +155,8 @@ button:active {
 
 #user-search-result {
     text-align: center;
+    margin-bottom: 30px;
 }
-
 
 /* Litst Page */
 ul {
@@ -255,7 +273,12 @@ li {
 
 /* Media Queries */
 @media all and (min-width : 768px) {
-    /* home page */
+    /* Wrapper */
+    .wrapper {
+        margin: 0 auto;
+        width: 80%;
+    }
+    /* Home Page */
     input[type=text]{
         width: 420px;
         padding: 5px 10px;
@@ -265,5 +288,29 @@ li {
 
     .home-search {
         width: 200px;
+    }
+
+    /* List Header */
+    .header-content-container {
+        margin: 0 auto;
+    }
+
+    /* List Page */
+    li {
+        margin-bottom: 50px;
+    }
+
+    .search-summary p {
+        margin-right: 40px;
+        margin-left: 40px;
+    }
+
+    .stream-item {
+        flex: 1 0 45%;
+        padding: 10px;
+        margin: 10px 5px;
+        border: solid 2px lightgray;
+        border-radius: 5px;
+        box-shadow: 5px 5px #929694;
     }
 }
