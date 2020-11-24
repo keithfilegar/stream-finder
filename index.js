@@ -92,8 +92,6 @@ function generateDetailOverview(responseJson) {
 function generateStreamDetails(metaDataJson) {  
     let viewOptionsArray = metaDataJson.waysToWatch.optionGroups[i].watchOptions
     let watchOptionsHtml = ''
-    console.log("generate stream details working")
-    console.log(viewOptionsArray)
 
     watchOptionsHtml += `
         <section class="group stream-method-container">
@@ -145,15 +143,11 @@ function formatSearchQuery(params) {
 }
 
 function displaySearchResults(responseJson) {
-    console.log(responseJson)
-    
     // Display error message if search yields no results
     if(!responseJson.hasOwnProperty('results')){
-        console.log('no results found')
-
         $('.js-error-message').removeClass('hidden')
         $('.js-error-message').append(
-            `<h3>Sorry! We weren't able to find anything by that name. Please try another search.</h3>`
+            `<h3 class="no-results-error">Sorry! We weren't able to find anything by that name. Please try another search.</h3>`
         )
         return
     }
@@ -179,7 +173,6 @@ function getUserSearch(searchTerm) {
 
     const searchQuery = formatSearchQuery(params)
     const url = baseURL + '/find?' + searchQuery
-    console.log(url)
 
     fetch(url, options)
     .then(response => {
@@ -191,7 +184,7 @@ function getUserSearch(searchTerm) {
     })
     .then(responseJson => displaySearchResults(responseJson))
     .catch(error => {
-        //alert("Something went wrong. Please try again later.")
+        alert("Something went wrong. Please try again later.")
         console.log(error.status)
     })
 }
@@ -203,19 +196,17 @@ function displayOverviewResults(overviewJson){
 }
 
 function displayStreamDetails(responseJson){
-    console.log(responseJson)
     let responseId = Object.keys(responseJson);
 
     let metaDataJson = responseJson[responseId[0]];
-    console.log(metaDataJson);
 
     let streamInfoHtml = generateMetacriticInfo(metaDataJson);
 
     for(i = 0; i < metaDataJson.waysToWatch.optionGroups.length; i++) {
         if(metaDataJson.waysToWatch.optionGroups[i].displayName === "ON TV") {
-            console.log("option group skipped")
             continue;
         }
+
         streamInfoHtml += generateStreamDetails(metaDataJson);
     }
 
@@ -230,7 +221,6 @@ function getOverviewDetails() {
 
     const overviewDetailQuery = formatSearchQuery(params);
     const url = baseURL + '/get-overview-details?' + overviewDetailQuery;
-    console.log(url);
 
     fetch(url, options)
     .then(response => {
@@ -242,7 +232,7 @@ function getOverviewDetails() {
     })
     .then(responseJson => displayOverviewResults(responseJson))
     .catch(error => {
-        //alert("Something went wrong. Please try again later.")
+        alert("Something went wrong. Please try again later.")
         console.log(error.status)
     })
 }
@@ -255,7 +245,6 @@ function getMetaData() {
 
     const metatDataQuery = formatSearchQuery(params);
     const url = baseURL + '/get-meta-data?' + metatDataQuery;
-    console.log(url);
 
     fetch(url, options)
     .then(response => {
@@ -267,7 +256,7 @@ function getMetaData() {
     })
     .then(responseJson => displayStreamDetails(responseJson))
     .catch(error => {
-        //alert("Something went wrong. Please try again later.")
+        alert("Something went wrong. Please try again later.")
         console.log(error.status)
     })
 }
@@ -277,7 +266,6 @@ function getMetaData() {
 function handleUserSearch() {
     $('.js-content-container').on('click', '.js-submit', event => {
         event.preventDefault();
-        console.log("Working");
         const searchTerm = $('#searchSubject').val();
 
         getUserSearch(searchTerm);
@@ -293,7 +281,6 @@ function handleStreamDetails() {
 
         store.detailId = event.target.id;
         store.listId = event.currentTarget.id;
-        console.log(store.listId)
         
         getOverviewDetails();
         // setTimeout to prevent race condition

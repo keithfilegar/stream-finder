@@ -135,6 +135,10 @@ button:active {
 	top:1px;
 }
 
+.no-results-error {
+    text-align: center;
+}
+
 /* List Header */
 .header-content-container {
     text-align: center;
