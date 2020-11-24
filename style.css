@@ -203,11 +203,30 @@ li {
     font-size: 1.3em;
 }
 
+.stream-group {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.stream-item {
+    flex: 1 0 100%;
+    padding: 10px;
+    margin: 10px 15px 10px 0;
+    border: solid 2px lightgray;
+    border-radius: 5px;
+    box-shadow: 3px 3px #929694;
+}
+
+.stream-method {
+    flex: 1 0 100%
+}
+
 .stream-method, .metacritic-title {
     font-size: 1.3em;
     text-align: left;
     text-decoration: underline;
     margin-left: 20px;
+    margin-bottom: 30px;
 }
 
 .stream-service, .service-link {
@@ -222,17 +241,22 @@ li {
 
 .service-link-container {
     margin-top: 30px;
+    background-color: #1f3b35;
+    border-radius: 5px;
+    padding: 10px;
 }
 .service-link {
     text-decoration: none;
     color: #fff;
-    background-color: #1f3b35;
-    padding: 10px 10px;
-    border-radius: 5px;
+    padding: 0;
 }
 
 .service-link:hover {
-    background-color: #4c7776;
+    color: #a2aaaa;
+}
+
+.service-link:active {
+    color: lightgray;
 }
 
 /* list positioning */

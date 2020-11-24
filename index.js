@@ -96,8 +96,8 @@ function generateStreamDetails(metaDataJson) {
     console.log(viewOptionsArray)
 
     watchOptionsHtml += `
-        <section class="group">
-            <div class="item">
+        <section class="group stream-method-container">
+            <div class="item stream-group">
                 <h3 class="stream-method">${metaDataJson.waysToWatch.optionGroups[i].displayName}</h3>
                 ${generateWatchOptions(viewOptionsArray)}
             </div>
@@ -126,9 +126,9 @@ function generateWatchOptions(viewOptionsArray) {
     let viewOptionHtml = ""
     for(x = 0; x < viewOptionsArray.length; x ++) {
         viewOptionHtml += `
-        <div>
+        <div class="stream-item">
             <h3 class="service-name">${viewOptionsArray[x].primaryText}</h3>
-            <p class="service-link-container"><a href="${viewOptionsArray[x].link.uri}" class="service-link" target="_blank">${viewOptionsArray[x].secondaryText}</a></p>
+            <a href="${viewOptionsArray[x].link.uri}" class="service-link" target="_blank"><p class="service-link-container">${viewOptionsArray[x].secondaryText}</p></a>
         </div>`
     }
     return viewOptionHtml;
@@ -297,7 +297,7 @@ function handleStreamDetails() {
         
         getOverviewDetails();
         // setTimeout to prevent race condition
-        setTimeout(() => {  getMetaData(); }, 2000);
+        setTimeout(() => {  getMetaData(); }, 2500);
 
         $(event.currentTarget).addClass('clicked')
     })
