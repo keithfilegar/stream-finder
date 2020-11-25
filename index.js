@@ -210,12 +210,19 @@ function getOverviewDetails() {
     })
     .then(responseJson => displayOverviewResults(responseJson))
     .catch(error => {
-        alert("Something went wrong. Please try again later.")
+        console.log(error)
+        //alert("Something went wrong. Please try again later.")
     })
 }
 
 function displayOverviewResults(overviewJson){
+    let noResponseHtml = "";
     $('#' + store.listId).empty();
+
+    if(overviewJson.certificates === undefined) {
+        $('#' + store.listId).html(noResponseHtml)
+        return;
+    }
 
     $('#' + store.listId).html(generateDetailOverview(overviewJson));
 }
@@ -244,11 +251,17 @@ function getMetaData() {
 }
 
 function displayStreamDetails(responseJson){
+    let noResultsHtml = "<h3>Sorry! This title is not available to stream or purchase.</h3>"
     let responseId = Object.keys(responseJson);
 
     let metaDataJson = responseJson[responseId[0]];
 
     let streamInfoHtml = generateMetacriticInfo(metaDataJson);
+
+    if(metaDataJson.waysToWatch.optionGroups === undefined){
+        $('#' + store.listId).append(noResultsHtml)
+        return;
+    }
 
     for(i = 0; i < metaDataJson.waysToWatch.optionGroups.length; i++) {
         if(metaDataJson.waysToWatch.optionGroups[i].displayName === "ON TV") {
