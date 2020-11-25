@@ -68,7 +68,7 @@ function generateListPage(responseJson) {
         </div>
 
         <div class="list-image item">
-            <img src="${responseJson.results[i].image.url}" class="result-poster">
+            <img src="${responseJson.results[i].image.url}" class="result-poster"/>
         </div>
 
         <div id="listItem${i}" class="detail-button-container item">
