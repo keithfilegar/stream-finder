@@ -186,7 +186,7 @@ li {
     font-size: 1.2em;
     font-weight: 700;
 }
-
+/* List Detail Overview */
 .plot-summary {
     margin: 10;
     font-size: 1.4em;
@@ -208,6 +208,7 @@ li {
     font-size: 1.3em;
 }
 
+/* List Stream Details */
 .stream-group {
     display: flex;
     flex-wrap: wrap;
