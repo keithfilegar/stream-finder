@@ -126,7 +126,7 @@ function generateWatchOptions(viewOptionsArray) {
         viewOptionHtml += `
         <div class="stream-item">
             <h3 class="service-name">${viewOptionsArray[x].primaryText}</h3>
-            <a href="${viewOptionsArray[x].link.uri}" class="service-link" target="_blank"><p class="service-link-container">${viewOptionsArray[x].secondaryText}</p></a>
+            <p class="service-link-container"><a href="${viewOptionsArray[x].link.uri}" class="service-link" target="_blank">${viewOptionsArray[x].secondaryText}</a></p>
         </div>`
     }
     return viewOptionHtml;
