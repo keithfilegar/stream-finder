@@ -142,6 +142,7 @@ button:active {
 /* List Header */
 .header-content-container {
     text-align: center;
+    margin: 0 auto;
 }
 
 .header-content-container h1 {
@@ -316,11 +317,6 @@ li {
 
     .home-search {
         width: 200px;
-    }
-
-    /* List Header */
-    .header-content-container {
-        margin: 0 auto;
     }
 
     /* List Page */
