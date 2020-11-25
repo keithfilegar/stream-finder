@@ -89,21 +89,6 @@ function generateDetailOverview(responseJson) {
         </div>`
 }
 
-function generateStreamDetails(metaDataJson) {  
-    let viewOptionsArray = metaDataJson.waysToWatch.optionGroups[i].watchOptions
-    let watchOptionsHtml = ''
-
-    watchOptionsHtml += `
-        <section class="group stream-method-container">
-            <div class="item stream-group">
-                <h3 class="stream-method">${metaDataJson.waysToWatch.optionGroups[i].displayName}</h3>
-                ${generateWatchOptions(viewOptionsArray)}
-            </div>
-        </section>`
-
-    return watchOptionsHtml;
-}
-
 function generateMetacriticInfo(metaDataJson){
     let metacriticHtml = ""
     if(metaDataJson.metacritic.reviewCount > 0) {
@@ -120,6 +105,21 @@ function generateMetacriticInfo(metaDataJson){
     return metacriticHtml
 }
 
+function generateStreamDetails(metaDataJson) {  
+    let viewOptionsArray = metaDataJson.waysToWatch.optionGroups[i].watchOptions
+    let watchOptionsHtml = ''
+
+    watchOptionsHtml += `
+        <section class="group stream-method-container">
+            <div class="item stream-group">
+                <h3 class="stream-method">${metaDataJson.waysToWatch.optionGroups[i].displayName}</h3>
+                ${generateWatchOptions(viewOptionsArray)}
+            </div>
+        </section>`
+
+    return watchOptionsHtml;
+}
+
 function generateWatchOptions(viewOptionsArray) {
     let viewOptionHtml = ""
     for(x = 0; x < viewOptionsArray.length; x ++) {
@@ -134,12 +134,34 @@ function generateWatchOptions(viewOptionsArray) {
 
 // ======== API INTERACTIONS ==========
 
-// --------- Handle User Search GET title/find ----------
 function formatSearchQuery(params) {
     const queryItem = Object.keys(params).map(key =>
         `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
 
         return queryItem.join();
+}
+
+// --------- Handle user search and display list results ----------
+function getUserSearch(searchTerm) {
+    const params = {
+        q: searchTerm
+    }
+
+    const searchQuery = formatSearchQuery(params)
+    const url = baseURL + '/find?' + searchQuery
+
+    fetch(url, options)
+    .then(response => {
+        if(!response.ok) {
+            alert("Error")
+            throw Error(response.status + ": " + response.message)
+        }
+        return response.json()
+    })
+    .then(responseJson => displaySearchResults(responseJson))
+    .catch(error => {
+        alert("Something went wrong. Please try again later.")
+    })
 }
 
 function displaySearchResults(responseJson) {
@@ -166,54 +188,10 @@ function displaySearchResults(responseJson) {
 
 }
 
-function getUserSearch(searchTerm) {
-    const params = {
-        q: searchTerm
-    }
+// --------- Handle stream details ----------
+// Stream details are broken into 2 calls. One for the plot overview and rating(GET overview-details), the second for where to watch(GET metadata)
 
-    const searchQuery = formatSearchQuery(params)
-    const url = baseURL + '/find?' + searchQuery
-
-    fetch(url, options)
-    .then(response => {
-        if(!response.ok) {
-            alert("Error")
-            throw Error(response.status + ": " + response.message)
-        }
-        return response.json()
-    })
-    .then(responseJson => displaySearchResults(responseJson))
-    .catch(error => {
-        alert("Something went wrong. Please try again later.")
-        console.log(error.status)
-    })
-}
-
-function displayOverviewResults(overviewJson){
-    $('#' + store.listId).empty();
-
-    $('#' + store.listId).html(generateDetailOverview(overviewJson));
-}
-
-function displayStreamDetails(responseJson){
-    let responseId = Object.keys(responseJson);
-
-    let metaDataJson = responseJson[responseId[0]];
-
-    let streamInfoHtml = generateMetacriticInfo(metaDataJson);
-
-    for(i = 0; i < metaDataJson.waysToWatch.optionGroups.length; i++) {
-        if(metaDataJson.waysToWatch.optionGroups[i].displayName === "ON TV") {
-            continue;
-        }
-
-        streamInfoHtml += generateStreamDetails(metaDataJson);
-    }
-
-    $('#' + store.listId).append(streamInfoHtml);
-}
-
-// --------- Handle Detail View GET title/overview-detail ----------
+// Overview detail fetch and display
 function getOverviewDetails() {
     const params = {
         tconst: store.detailId
@@ -233,11 +211,16 @@ function getOverviewDetails() {
     .then(responseJson => displayOverviewResults(responseJson))
     .catch(error => {
         alert("Something went wrong. Please try again later.")
-        console.log(error.status)
     })
 }
 
-// --------- Handle Detail View GET title/meta-data ----------
+function displayOverviewResults(overviewJson){
+    $('#' + store.listId).empty();
+
+    $('#' + store.listId).html(generateDetailOverview(overviewJson));
+}
+
+// Metadata fetch and display
 function getMetaData() {
     const params = {
         ids: store.detailId
@@ -257,8 +240,25 @@ function getMetaData() {
     .then(responseJson => displayStreamDetails(responseJson))
     .catch(error => {
         alert("Something went wrong. Please try again later.")
-        console.log(error.status)
     })
+}
+
+function displayStreamDetails(responseJson){
+    let responseId = Object.keys(responseJson);
+
+    let metaDataJson = responseJson[responseId[0]];
+
+    let streamInfoHtml = generateMetacriticInfo(metaDataJson);
+
+    for(i = 0; i < metaDataJson.waysToWatch.optionGroups.length; i++) {
+        if(metaDataJson.waysToWatch.optionGroups[i].displayName === "ON TV") {
+            continue;
+        }
+
+        streamInfoHtml += generateStreamDetails(metaDataJson);
+    }
+
+    $('#' + store.listId).append(streamInfoHtml);
 }
 
 // ======== EVENT HANDLERS ==========
