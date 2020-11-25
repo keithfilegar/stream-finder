@@ -71,7 +71,7 @@ function generateListPage(responseJson) {
             <img src="${responseJson.results[i].image.url}" class="result-poster"/>
         </div>
 
-        <div id="listItem${i}" class="detail-button-container item">
+        <div id="listItem${i}" class="detail-frame detail-button-container item">
             <button id="${responseJson.results[i].id.replace("/title/", "").replaceAll("/", "")}" class="list-button" onclick="this.disabled = true">Streaming Details</button>
         </div>
     </li>
@@ -274,11 +274,7 @@ function handleUserSearch() {
 }
 
 function handleStreamDetails() {
-    $('body').on('click', '.detail-button-container', event => { 
-        if($(event.currentTarget).hasClass('clicked')) {
-            return false;
-        }
-
+    $('body').on('click', '.detail-button-container', event => {
         store.detailId = event.target.id;
         store.listId = event.currentTarget.id;
         
@@ -286,7 +282,7 @@ function handleStreamDetails() {
         // setTimeout to prevent race condition
         setTimeout(() => {  getMetaData(); }, 2500);
 
-        $(event.currentTarget).addClass('clicked')
+        $(event.currentTarget).toggleClass('detail-button-container')
     })
 }
 

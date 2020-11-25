@@ -30,7 +30,7 @@ h1 {
 
 /* Wrapper */
 .wrapper {
-    min-height: calc(100vh - 170px);
+    min-height: calc(100vh - 210px);
     position: relative;
     margin: 15px 15px 20px 15px;
     
@@ -62,10 +62,6 @@ footer {
     color: #ffffff;
     background-color: #4B4D4C;
     margin-top: 20px;
-}
-
-footer p {
-    margin: 5px 0;
 }
 
 #github-logo {
@@ -188,7 +184,7 @@ li {
 }
 /* List Detail Overview */
 .plot-summary {
-    margin: 10;
+    margin: 10px;
     font-size: 1.4em;
     text-decoration: underline;
 }
@@ -289,7 +285,7 @@ li {
     border: solid 1px black;
 }
 
-.detail-button-container {
+.detail-frame {
     width: 100%;
     text-align: center;
     padding: 0;
