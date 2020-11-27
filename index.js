@@ -1,19 +1,19 @@
-const apiKey = '019af6d65amshfdcba9ddad7b7b6p15a8c3jsnb361c08911f2'
-const apiHost = 'imdb8.p.rapidapi.com'
-const baseURL = 'https://imdb8.p.rapidapi.com/title'
+const apiKey = '019af6d65amshfdcba9ddad7b7b6p15a8c3jsnb361c08911f2';
+const apiHost = 'imdb8.p.rapidapi.com';
+const baseURL = 'https://imdb8.p.rapidapi.com/title';
 
 const store = {
     searchStarted: false,
     detailId: "",
     listId: ""
-}
+};
 
 const options = {
     headers: new Headers({
         "x-rapidapi-key": apiKey,
         "x-rapidapi-host": apiHost
     })
-}
+};
 
 // ======== HTML GENERATION ==========
 
@@ -90,7 +90,7 @@ function generateDetailOverview(responseJson) {
 }
 
 function generateMetacriticInfo(metaDataJson){
-    let metacriticHtml = ""
+    let metacriticHtml = "";
     if(metaDataJson.metacritic.reviewCount > 0) {
         metacriticHtml += `
         <section class="group">
@@ -106,8 +106,8 @@ function generateMetacriticInfo(metaDataJson){
 }
 
 function generateStreamDetails(metaDataJson) {  
-    let viewOptionsArray = metaDataJson.waysToWatch.optionGroups[i].watchOptions
-    let watchOptionsHtml = ''
+    const viewOptionsArray = metaDataJson.waysToWatch.optionGroups[i].watchOptions;
+    let watchOptionsHtml = '';
 
     watchOptionsHtml += `
         <section class="group stream-method-container">
@@ -121,7 +121,7 @@ function generateStreamDetails(metaDataJson) {
 }
 
 function generateWatchOptions(viewOptionsArray) {
-    let viewOptionHtml = ""
+    let viewOptionHtml = "";
     for(x = 0; x < viewOptionsArray.length; x ++) {
         viewOptionHtml += `
         <div class="stream-item">
@@ -145,10 +145,10 @@ function formatSearchQuery(params) {
 function getUserSearch(searchTerm) {
     const params = {
         q: searchTerm
-    }
+    };
 
-    const searchQuery = formatSearchQuery(params)
-    const url = baseURL + '/find?' + searchQuery
+    const searchQuery = formatSearchQuery(params);
+    const url = baseURL + '/find?' + searchQuery;
 
     fetch(url, options)
     .then(response => {
@@ -167,11 +167,11 @@ function getUserSearch(searchTerm) {
 function displaySearchResults(responseJson) {
     // Display error message if search yields no results
     if(!responseJson.hasOwnProperty('results')){
-        $('.js-error-message').removeClass('hidden')
+        $('.js-error-message').removeClass('hidden');
         $('.js-error-message').append(
             `<h3 class="no-results-error">Sorry! We weren't able to find anything by that name. Please try another search.</h3>`
-        )
-        return
+        );
+        return;
     }
     $('.js-content-container').empty();
 
@@ -183,7 +183,7 @@ function displaySearchResults(responseJson) {
             continue;
         }
 
-        $('.js-list-container').append(generateListPage(responseJson))
+        $('.js-list-container').append(generateListPage(responseJson));
     }
 
 }
@@ -210,8 +210,7 @@ function getOverviewDetails() {
     })
     .then(responseJson => displayOverviewResults(responseJson))
     .catch(error => {
-        console.log(error)
-        //alert("Something went wrong. Please try again later.")
+        alert("Something went wrong. Please try again later.")
     })
 }
 
@@ -251,19 +250,21 @@ function getMetaData() {
 }
 
 function displayStreamDetails(responseJson){
-    let noResultsHtml = "<h3>Sorry! This title is not available to stream or purchase.</h3>"
+    let noResultsHtml = "<h3>Sorry! This title is not currently available to stream or purchase.</h3>";
     let responseId = Object.keys(responseJson);
 
     let metaDataJson = responseJson[responseId[0]];
 
     let streamInfoHtml = generateMetacriticInfo(metaDataJson);
 
+    // Filter out unwanted response values
     if(metaDataJson.waysToWatch.optionGroups === undefined){
         $('#' + store.listId).append(noResultsHtml)
         return;
     }
 
     for(i = 0; i < metaDataJson.waysToWatch.optionGroups.length; i++) {
+        // "ON TV" value for displayName returns improperly formatted data
         if(metaDataJson.waysToWatch.optionGroups[i].displayName === "ON TV") {
             continue;
         }
